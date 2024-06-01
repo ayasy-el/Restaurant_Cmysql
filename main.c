@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void tambah_pelanggan();
 void tambah_pesanan();
+void tambah_menu();
 void lihat_riwayat();
 
 int main() {
@@ -12,8 +12,8 @@ int main() {
         printf("============================================\n");
         printf("   Selamat Datang di Sistem Pemesanan Restoran\n");
         printf("============================================\n");
-        printf("1. Tambah Pelanggan\n");
-        printf("2. Tambah Pesanan\n");
+        printf("1. Tambah Pesanan\n");
+        printf("2. Tambah Menu\n");
         printf("3. Lihat Riwayat Pemesanan\n");
         printf("4. Keluar\n");
         printf("============================================\n");
@@ -22,10 +22,10 @@ int main() {
 
         switch (pilihan) {
             case 1:
-                tambah_pelanggan();
+                tambah_pesanan();
                 break;
             case 2:
-                tambah_pesanan();
+                tambah_menu();
                 break;
             case 3:
                 lihat_riwayat();

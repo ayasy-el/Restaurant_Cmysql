@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.29.3)
 project(MyProject)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(SOURCES
     main.c
-    tambah_pelanggan.c
+    tambah_menu.c
     tambah_pesanan.c
     lihat_riwayat.c
     database.c
