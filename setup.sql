@@ -5,7 +5,7 @@ USE restoran_db;
 CREATE TABLE Menu (
     MenuID INT AUTO_INCREMENT PRIMARY KEY,
     NamaMenu VARCHAR(50) NOT NULL,
-    HargaSatuan INT NOT NULL
+    HargaMenu INT NOT NULL
 );
 
 CREATE TABLE Pesanan (

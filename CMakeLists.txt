@@ -4,7 +4,7 @@ project(MyProject)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(SOURCES
     main.c
-    tambah_menu.c
+    kelola_menu.c
     tambah_pesanan.c
     lihat_riwayat.c
     database.c
