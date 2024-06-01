@@ -1,2 +1,3 @@
 # Restaurant_Cmysql
-Project Akhir Semester 2 Dasar Pemrograman
+
+Aplikasi kasir restoran berbasis CLI dengan menggunakan bahasa C dan database mysql
