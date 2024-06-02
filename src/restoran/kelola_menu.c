@@ -121,12 +121,15 @@ void lihat_menu() {
     printf("Tekan Enter untuk kembali...\n");
     fflush(stdin);
     while (getchar() != '\n');
+
+    disconnect_db(conn);
 }
 
 void delete_menu() {
     MYSQL *conn = mysql_init(NULL);
     connect_db(conn);
 
+    system(CLEAR);
     printf("\n============================================\n");
     printf("               Delete Menu\n");
     printf("============================================\n");

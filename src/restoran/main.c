@@ -13,11 +13,11 @@ void kelola_menu();
 void login();
 
 int main() {
-    system(CLEAR);
     login();
     int pilihan;
 
     while (1) {
+        system(CLEAR);
         printf("\n============================================\n");
         printf("   Selamat Datang di Sistem Pemesanan Restoran\n");
         printf("============================================\n");
@@ -58,6 +58,7 @@ int main() {
 void kelola_menu() {
     int pilihan;
     while (1) {
+        system(CLEAR);
         printf("\n============================================\n");
         printf("               Kelola Menu\n");
         printf("============================================\n");

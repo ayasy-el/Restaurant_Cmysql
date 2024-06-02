@@ -4,11 +4,13 @@
 
 #include "../database.h"
 #include "../multiplatform.h"
+#if defined(unix)
+int getch(void);
+#endif
 
 char name[30];
-char id[5];
 char password[20];
-char phone[15];
+int phone;
 
 void waitForEnter();
 
@@ -20,6 +22,7 @@ void insert() {
     printf("\n-------------------------------------------------------------------------------------------------------\n");
     printf("------------------------------------- Tambah Data Karyawan --------------------------------------------\n");
     printf("\n Masukkan Nama Karyawan: ");
+    fflush(stdin);
     scanf("%[^\n]%*c", name);
     char ch;
     printf("\n Masukkan Password: ");
@@ -30,10 +33,10 @@ void insert() {
     }
     password[i] = '\0';
     printf("\n Masukkan No. Telp: ");
-    scanf("%s", phone);
+    scanf("%d", &phone);
 
     char query[256];
-    snprintf(query, sizeof(query), "INSERT INTO employees (name, password, phone) VALUES ('%s', '%s', '%s')", name, password, phone);
+    snprintf(query, sizeof(query), "INSERT INTO employees (name, password, phone) VALUES ('%s', '%s', '%d')", name, password, phone);
     execute_query(conn, query);
 
     printf("\n\nBerhasil Menambah Data Karyawan\n");
@@ -67,7 +70,7 @@ void display() {
 
 void modify() {
     system(CLEAR);
-    char checkId[5];
+    int checkId;
     int found = 0;
 
     MYSQL *conn = mysql_init(NULL);
@@ -76,15 +79,16 @@ void modify() {
     printf("\n-------------------------------------------------------------------------------------------------------\n");
     printf("------------------------------------- Edit Data Karyawan ----------------------------------------------\n");
     printf("\nMasukkan ID Karyawan: ");
-    scanf("%s", checkId);
+    scanf("%d", &checkId);
 
     char query[256];
-    snprintf(query, sizeof(query), "SELECT id FROM employees WHERE id='%s'", checkId);
+    snprintf(query, sizeof(query), "SELECT id FROM employees WHERE id='%d'", checkId);
     MYSQL_RES *res = fetch_query(conn, query);
 
     if (mysql_num_rows(res) > 0) {
         found = 1;
         printf("\n Masukkan Nama Karyawan: ");
+        fflush(stdin);
         scanf("%[^\n]%*c", name);
         char ch;
         printf("\n Masukkan Password: ");
@@ -96,9 +100,9 @@ void modify() {
         }
         password[i] = '\0';
         printf("\n Masukkan No. Telp: ");
-        scanf("%s", phone);
+        scanf("%d", &phone);
 
-        snprintf(query, sizeof(query), "UPDATE employees SET name='%s', password='%s', phone='%s' WHERE id='%s'", name, password, phone, checkId);
+        snprintf(query, sizeof(query), "UPDATE employees SET name='%s', password='%s', phone='%d' WHERE id='%d'", name, password, phone, checkId);
         execute_query(conn, query);
         printf("\n\nBerhasil Mengubah Data Karyawan\n");
     }
@@ -114,7 +118,7 @@ void modify() {
 
 void deleted() {
     system(CLEAR);
-    char checkId[5];
+    int checkId;
     int found = 0;
 
     MYSQL *conn = mysql_init(NULL);
@@ -123,15 +127,15 @@ void deleted() {
     printf("\n-------------------------------------------------------------------------------------------------------\n");
     printf("------------------------------------- Hapus Data Karyawan ----------------------------------------------\n");
     printf("\nMasukkan ID Karyawan Untuk Menghapus Data: ");
-    scanf("%s", checkId);
+    scanf("%d", &checkId);
 
     char query[256];
-    snprintf(query, sizeof(query), "SELECT id FROM employees WHERE id='%s'", checkId);
+    snprintf(query, sizeof(query), "SELECT id FROM employees WHERE id='%d'", checkId);
     MYSQL_RES *res = fetch_query(conn, query);
 
     if (mysql_num_rows(res) > 0) {
         found = 1;
-        snprintf(query, sizeof(query), "DELETE FROM employees WHERE id='%s'", checkId);
+        snprintf(query, sizeof(query), "DELETE FROM employees WHERE id='%d'", checkId);
         execute_query(conn, query);
         printf("\n\nBerhasil Menghapus Data Karyawan\n");
     }

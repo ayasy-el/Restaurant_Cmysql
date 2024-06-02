@@ -8,15 +8,21 @@ else
 	MAKE_GENERATOR = "Unix Makefiles"
 endif
 
-all: clean r k
+all: clean rk
+
+rk: clean src/restoran/main.c src/karyawan/main.c
+	cmake -B build
+	cmake --build build
 
 r: clean src/restoran/main.c
 	cmake -B build -DBUILD_RESTORAN=ON -DBUILD_KARYAWAN=OFF
 	cmake --build build --target restoran
+	$(MAKE) run-r
 
 k: clean src/karyawan/main.c
 	cmake -B build -DBUILD_RESTORAN=OFF -DBUILD_KARYAWAN=ON
 	cmake --build build --target karyawan
+	$(MAKE) run-k
 
 run-r:
 	./$(RESTO)

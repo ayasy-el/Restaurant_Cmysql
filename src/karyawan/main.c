@@ -6,7 +6,7 @@
 #include "../database.h"
 #include "../multiplatform.h"
 #if defined(unix)
-void getch();
+int getch(void);
 #endif
 
 void waitForEnter() {
