@@ -15,11 +15,6 @@ CREATE TABLE Menu (
     HargaMenu INT NOT NULL
 );
 
-CREATE TABLE Removed_Menu (
-    MenuID INT AUTO_INCREMENT PRIMARY KEY,
-    NamaMenu VARCHAR(50) NOT NULL,
-);
-
 CREATE TABLE Pesanan (
     PesananID INT AUTO_INCREMENT PRIMARY KEY,
     Timestamp DATETIME NOT NULL,
@@ -32,22 +27,10 @@ CREATE TABLE Pesanan (
 CREATE TABLE Detail_Pesanan (
     DetailPesananID INT AUTO_INCREMENT PRIMARY KEY,
     PesananID INT,
-    MenuID INT,
+    NamaMenu VARCHAR(50) NOT NULL,
     Jumlah INT NOT NULL,
     HargaMenu INT NOT NULL,
     FOREIGN KEY (PesananID) REFERENCES Pesanan(PesananID)
 );
 
-DELIMITER //
-
-CREATE TRIGGER before_menu_delete
-BEFORE DELETE ON menu
-FOR EACH ROW
-BEGIN
-    INSERT INTO Removed_Menu (MenuID, NamaMenu, HargaMenu)
-    VALUES (OLD.MenuID, OLD.NamaMenu, OLD.HargaMenu);
-END;
-
-//
-
-DELIMITER ;
+INSERT INTO employees (name, password) VALUES ('admin','root');

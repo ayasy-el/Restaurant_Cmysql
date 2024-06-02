@@ -46,23 +46,24 @@ void tambah_pesanan() {
     printf("Masukkan jumlah item yang dipesan: ");
     scanf("%d", &jumlahItem);
 
-    int jumlah[50], menuID[50], hargaSatuan;
+    int jumlah[50], menuID[50], hargaSatuan[50];
     char queryDetail[2048] = "";
 
+    totalHarga = 0;
     for (int i = 0; i < jumlahItem;) {
         printf("Item %d:\n", i + 1);
         printf("  Masukkan ID Menu: ");
         scanf("%d", &menuID[i]);
-        hargaSatuan = getHarga(conn, menuID[i]);
-        if (hargaSatuan == -1) {  // tidak dapat id
+        hargaSatuan[i] = getHarga(conn, menuID[i]);
+        if (hargaSatuan[i] == -1) {  // tidak dapat id
             printf("Menu tidak ditemukan\n\n");
             continue;
         }
 
         printf("  Jumlah: ");
         scanf("%d", &jumlah[i]);
-        printf("  Harga: %d\n", hargaSatuan * jumlah[i]);
-        totalHarga += hargaSatuan * jumlah[i];
+        printf("  Harga: %d\n", hargaSatuan[i] * jumlah[i]);
+        totalHarga += hargaSatuan[i] * jumlah[i];
 
         printf("\n");
         i++;
@@ -85,8 +86,14 @@ void tambah_pesanan() {
     mysql_free_result(resultID);
 
     for (int i = 0; i < jumlahItem; i++) {
-        sprintf(queryDetail, "INSERT INTO Detail_Pesanan (PesananID, MenuID, Jumlah) VALUES (%d, %d, %d);", pesananID, menuID[i], jumlah[i]);
+        sprintf(queryDetail, "SELECT NamaMenu FROM Menu where MenuID=%d", menuID[i]);
+        MYSQL_RES *resultMenu = fetch_query(conn, queryDetail);  // Mengambil ID terakhir & Timestamp
+        MYSQL_ROW rowMenu = mysql_fetch_row(resultMenu);
+
+        sprintf(queryDetail, "INSERT INTO Detail_Pesanan (PesananID, NamaMenu, Jumlah, HargaMenu ) VALUES (%d, '%s', %d, %d);", pesananID, rowMenu[0], jumlah[i], hargaSatuan[i]);
         execute_query(conn, queryDetail);
+
+        mysql_free_result(resultMenu);
     }
 
     printf("Pesanan berhasil ditambahkan!\n");
@@ -148,17 +155,11 @@ void cetakNota() {
     printf("   Total Harga: %d\n", totalHarga);
 
     mysql_free_result(result);  // Membebaskan hasil setelah digunakan
-    sprintf(query, "SELECT b.NamaMenu, a.Jumlah, b.HargaMenu FROM Detail_Pesanan a JOIN Menu b ON a.MenuID=b.MenuID WHERE PesananID=%d", id);
-    execute_query(conn, query);
-
-    MYSQL_RES *detail_result = mysql_store_result(conn);
-    if (detail_result == NULL) {
-        fprintf(stderr, "%s\n", mysql_error(conn));
-        exit(1);
-    }
+    sprintf(query, "SELECT NamaMenu, Jumlah, HargaMenu FROM Detail_Pesanan WHERE PesananID=%d", id);
+    MYSQL_RES *detail_result = fetch_query(conn, query);
     MYSQL_ROW detail_row;
     while ((detail_row = mysql_fetch_row(detail_result))) {
         printf("     - %s, Jumlah: %s, Harga Satuan: %s\n", detail_row[0], detail_row[1], detail_row[2]);
     }
-    mysql_free_result(detail_result);  // Membebaskan hasil setelah digunakan
+    mysql_free_result(detail_result);
 }

@@ -22,8 +22,7 @@ void insert() {
     printf("\n-------------------------------------------------------------------------------------------------------\n");
     printf("------------------------------------- Tambah Data Karyawan --------------------------------------------\n");
     printf("\n Masukkan Nama Karyawan: ");
-    fflush(stdin);
-    scanf("%[^\n]%*c", name);
+    scanf(" %[^\n]%*c", name);
     char ch;
     printf("\n Masukkan Password: ");
     int i = 0;
@@ -78,6 +77,14 @@ void modify() {
 
     printf("\n-------------------------------------------------------------------------------------------------------\n");
     printf("------------------------------------- Edit Data Karyawan ----------------------------------------------\n");
+
+    MYSQL_RES *showRes = fetch_query(conn, "SELECT id, name FROM employees");
+    MYSQL_ROW showRow;
+    while ((showRow = mysql_fetch_row(showRes)) != NULL) {
+        printf("[%s] %s\n", showRow[0], showRow[1]);
+    }
+    mysql_free_result(showRes);
+
     printf("\nMasukkan ID Karyawan: ");
     scanf("%d", &checkId);
 
@@ -88,12 +95,10 @@ void modify() {
     if (mysql_num_rows(res) > 0) {
         found = 1;
         printf("\n Masukkan Nama Karyawan: ");
-        fflush(stdin);
-        scanf("%[^\n]%*c", name);
+        scanf(" %[^\n]%*c", name);
         char ch;
         printf("\n Masukkan Password: ");
         int i = 0;
-        getch();
         while ((ch = getch()) != ENTER && i < 19) {
             password[i++] = ch;
             printf("*");
@@ -126,6 +131,14 @@ void deleted() {
 
     printf("\n-------------------------------------------------------------------------------------------------------\n");
     printf("------------------------------------- Hapus Data Karyawan ----------------------------------------------\n");
+
+    MYSQL_RES *showRes = fetch_query(conn, "SELECT id, name FROM employees");
+    MYSQL_ROW showRow;
+    while ((showRow = mysql_fetch_row(showRes)) != NULL) {
+        printf("[%s] %s\n", showRow[0], showRow[1]);
+    }
+    mysql_free_result(showRes);
+
     printf("\nMasukkan ID Karyawan Untuk Menghapus Data: ");
     scanf("%d", &checkId);
 

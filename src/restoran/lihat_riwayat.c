@@ -5,8 +5,6 @@
 #include "../database.h"
 #include "../multiplatform.h"
 
-// TODO: Riwayat masih terpengaruh update edit menu
-// * tambahkan harga menu di Detail_Pesanan
 void lihat_riwayat() {
     MYSQL *conn = mysql_init(NULL);
     connect_db(conn);
@@ -26,7 +24,7 @@ void lihat_riwayat() {
         printf("   Total Harga: %s\n", row[5]);
 
         char query[256];
-        sprintf(query, "SELECT COALESCE(m.NamaMenu, rm.NamaMenu) AS NamaMenu, dp.Jumlah, COALESCE(m.HargaMenu, rm.HargaMenu) AS HargaMenu FROM Detail_Pesanan dp LEFT JOIN Menu m ON dp.MenuID = m.MenuID LEFT JOIN Removed_Menu rm ON dp.MenuID = rm.MenuID WHERE dp.PesananID=%s", row[0]);
+        sprintf(query, "SELECT NamaMenu, Jumlah, HargaMenu FROM Detail_Pesanan WHERE PesananID=%s", row[0]);
 
         MYSQL_RES *detail_result = fetch_query(conn, query);
         MYSQL_ROW detail_row;

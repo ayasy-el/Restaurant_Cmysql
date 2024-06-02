@@ -12,7 +12,6 @@ int getch(void);
 void waitForEnter() {
     printf("\n\nTekan enter untuk kembali: ");
     getchar();
-    getchar();
 }
 
 void login();

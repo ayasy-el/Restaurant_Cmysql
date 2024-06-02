@@ -18,9 +18,13 @@ void tambah_menu() {
     printf("               Tambah Menu\n");
     printf("============================================\n");
 
-    printf("Masukkan Nama menu: ");
-    while (getchar() != '\n');
-    scanf("%[^\n]%*c", namaMenu);
+    while (1) {
+        printf("Masukkan Nama menu: ");
+        while (getchar() != '\n');
+        scanf("%[^\n]%*c", namaMenu);
+        if (strcmp(namaMenu, "") != 0) break;
+        printf("Nama menu tidak boleh kosong\n\n");
+    }
 
     while (1) {
         printf("Masukkan Harga menu: ");
