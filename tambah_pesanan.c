@@ -5,26 +5,22 @@
 
 #include "database.h"
 int getHarga(MYSQL *, int);
+void cetakNota();
+
+int jumlahItem;
+char namaPelanggan[255], metodePembayaran[20];
+int totalHarga = 0;
 
 void tambah_pesanan() {
     MYSQL *conn = mysql_init(NULL);
     connect_db(conn);
-
-    int jumlahItem;
-    char namaPelanggan[255], metodePembayaran[20];
-    int totalHarga = 0;
 
     printf("\n============================================\n");
     printf("               Tambah Pesanan\n");
     printf("============================================\n");
 
     printf("  Daftar Menu:\n");
-    execute_query(conn, "SELECT MenuID, NamaMenu, HargaMenu FROM Menu");
-    MYSQL_RES *result = mysql_store_result(conn);
-    if (result == NULL) {
-        fprintf(stderr, "%s\n", mysql_error(conn));
-        exit(1);
-    }
+    MYSQL_RES *result = fetch_query(conn, "SELECT MenuID, NamaMenu, HargaMenu FROM Menu");
     MYSQL_ROW row;
     while ((row = mysql_fetch_row(result))) {
         printf("   [%s] %s : %s\n", row[0], row[1], row[2]);
@@ -38,30 +34,24 @@ void tambah_pesanan() {
     printf("Masukkan jumlah item yang dipesan: ");
     scanf("%d", &jumlahItem);
 
-    int i;
-    int menuID;
-    int jumlah;
-    int hargaSatuan;
-    char query[1024] = "";
-    char queryDetail[1024] = "", queryPesanan[1024];
+    int jumlah[50], menuID[50], hargaSatuan;
+    char queryDetail[2048] = "";
 
-    for (i = 0; i < jumlahItem;) {
+    for (int i = 0; i < jumlahItem;) {
         printf("Item %d:\n", i + 1);
         printf("  Masukkan ID Menu: ");
-        scanf("%d", &menuID);
-        hargaSatuan = getHarga(conn, menuID);
+        scanf("%d", &menuID[i]);
+        hargaSatuan = getHarga(conn, menuID[i]);
         if (hargaSatuan == -1) {
             printf("Menu tidak ditemukan\n\n");
             continue;
         }
 
         printf("  Jumlah: ");
-        scanf("%d", &jumlah);
-        printf("  Harga: %d\n", hargaSatuan * jumlah);
-        totalHarga += hargaSatuan * jumlah;
+        scanf("%d", &jumlah[i]);
+        printf("  Harga: %d\n", hargaSatuan * jumlah[i]);
+        totalHarga += hargaSatuan * jumlah[i];
 
-        sprintf(queryDetail, "INSERT INTO Detail_Pesanan (PesananID, MenuID, Jumlah) VALUES (LAST_INSERT_ID(), %d, %d);", menuID, jumlah);
-        strcat(queryPesanan, queryDetail);
         printf("\n");
         i++;
     }
@@ -71,15 +61,29 @@ void tambah_pesanan() {
     scanf("%s", metodePembayaran);
 
     sprintf(queryDetail, "INSERT INTO Pesanan (Timestamp, NamaPelanggan, TotalHarga, MetodePembayaran, Status) VALUES (NOW(), '%s', %d, '%s', 'Selesai');", namaPelanggan, totalHarga, metodePembayaran);
-    strcat(query, queryDetail);
-    strcat(query, queryPesanan);
-    execute_query(conn, query);
+    execute_query(conn, queryDetail);
+
+    int pesananID;
+    MYSQL_RES *resultID = fetch_query(conn, "SELECT MAX(PesananID) FROM Pesanan");  // Mengambil ID terakhir & Timestamp
+    MYSQL_ROW rowID = mysql_fetch_row(resultID);
+    if (rowID == NULL)
+        pesananID = 0;
+    else
+        pesananID = atoi(rowID[0]);
+    mysql_free_result(resultID);
+
+    for (int i = 0; i < jumlahItem; i++) {
+        sprintf(queryDetail, "INSERT INTO Detail_Pesanan (PesananID, MenuID, Jumlah) VALUES (%d, %d, %d);", pesananID, menuID[i], jumlah[i]);
+        execute_query(conn, queryDetail);
+    }
 
     printf("Pesanan berhasil ditambahkan!\n");
     printf("============================================\n");
+    cetakNota();
+    printf("============================================\n");
     printf("Tekan Enter untuk kembali ke menu utama...\n");
     getchar();
-    getchar();  // Untuk menangkap Enter
+    while (getchar() != '\n');
 
     disconnect_db(conn);
 }
@@ -104,4 +108,45 @@ int getHarga(MYSQL *conn, int menuID) {
 
     mysql_free_result(result);
     return harga;
+}
+
+void cetakNota() {
+    MYSQL *conn = mysql_init(NULL);
+    connect_db(conn);
+    char query[1024] = "";
+
+    execute_query(conn, "SELECT MAX(PesananID), Timestamp FROM Pesanan");  // Mengambil ID terakhir & Timestamp
+    MYSQL_RES *result = mysql_store_result(conn);
+    if (result == NULL) {
+        fprintf(stderr, "%s\n", mysql_error(conn));
+        exit(1);
+    }
+
+    MYSQL_ROW row = mysql_fetch_row(result);
+    if (row == NULL) {
+        fprintf(stderr, "No orders found\n");
+        mysql_free_result(result);
+        return;
+    }
+    int id = atoi(row[0]);
+    printf("%s. %s\n", row[0], namaPelanggan);
+    printf("   Tanggal/Waktu: %s\n", row[1]);
+    printf("   Metode Pembayaran: %s\n", metodePembayaran);
+    printf("   Status: %s\n", "selesai");
+    printf("   Total Harga: %d\n", totalHarga);
+
+    mysql_free_result(result);  // Membebaskan hasil setelah digunakan
+    sprintf(query, "SELECT b.NamaMenu, a.Jumlah, b.HargaMenu FROM Detail_Pesanan a JOIN Menu b ON a.MenuID=b.MenuID WHERE PesananID=%d", id);
+    execute_query(conn, query);
+
+    MYSQL_RES *detail_result = mysql_store_result(conn);
+    if (detail_result == NULL) {
+        fprintf(stderr, "%s\n", mysql_error(conn));
+        exit(1);
+    }
+    MYSQL_ROW detail_row;
+    while ((detail_row = mysql_fetch_row(detail_result))) {
+        printf("     - %s, Jumlah: %s, Harga Satuan: %s\n", detail_row[0], detail_row[1], detail_row[2]);
+    }
+    mysql_free_result(detail_result);  // Membebaskan hasil setelah digunakan
 }

@@ -73,10 +73,7 @@ void kelola_menu() {
             delete_menu();
             break;
         case 4:
-            printf("============================================\n");
-            printf("Tekan Enter untuk kembali ke menu utama...\n");
-            getchar();
-            getchar();
+            printf("============================================\n\n");
             break;
         default:
             printf("Pilihan tidak valid. Silakan coba lagi.\n");

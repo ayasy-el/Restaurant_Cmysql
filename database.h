@@ -6,5 +6,6 @@
 void connect_db(MYSQL *conn);
 void disconnect_db(MYSQL *conn);
 void execute_query(MYSQL *conn, const char *query);
+MYSQL_RES *fetch_query(MYSQL *conn, const char *query);
 
 #endif

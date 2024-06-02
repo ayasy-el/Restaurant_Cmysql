@@ -27,11 +27,11 @@ void tambah_menu() {
     sprintf(query, "INSERT INTO Menu (NamaMenu, HargaMenu) VALUES ('%s', %d)", namaMenu, hargaMenu);
     execute_query(conn, query);
 
-    printf("Pelanggan berhasil ditambahkan!\n");
+    printf("Menu berhasil ditambahkan!\n");
     printf("============================================\n");
     printf("Tekan Enter untuk kembali ke menu utama...\n");
     getchar();
-    getchar();  // Untuk menangkap Enter
+    while (getchar() != '\n');
 
     disconnect_db(conn);
 }

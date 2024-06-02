@@ -23,3 +23,13 @@ void execute_query(MYSQL *conn, const char *query) {
         exit(1);
     }
 }
+
+MYSQL_RES *fetch_query(MYSQL *conn, const char *query) {
+    execute_query(conn, query);
+    MYSQL_RES *result = mysql_store_result(conn);
+    if (result == NULL) {
+        fprintf(stderr, "%s\n", mysql_error(conn));
+        exit(1);
+    }
+    return result;
+}
