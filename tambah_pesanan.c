@@ -25,8 +25,18 @@ void tambah_pesanan() {
     while ((row = mysql_fetch_row(result))) {
         printf("   [%s] %s : %s\n", row[0], row[1], row[2]);
     }
-    mysql_free_result(result);
     printf("--------------------------------------------\n\n");
+    if (mysql_num_rows(result) == 0) {
+        printf("Tambahkan Menu Terlebih dahulu\n");
+        printf("============================================\n");
+        printf("Tekan Enter untuk kembali ke menu utama...\n");
+        fflush(stdin);
+        while (getchar() != '\n');
+
+        disconnect_db(conn);
+        return;
+    }
+    mysql_free_result(result);
 
     printf("Masukkan nama pelanggan: ");
     while (getchar() != '\n');
@@ -42,7 +52,7 @@ void tambah_pesanan() {
         printf("  Masukkan ID Menu: ");
         scanf("%d", &menuID[i]);
         hargaSatuan = getHarga(conn, menuID[i]);
-        if (hargaSatuan == -1) {
+        if (hargaSatuan == -1) {  // tidak dapat id
             printf("Menu tidak ditemukan\n\n");
             continue;
         }
@@ -82,7 +92,7 @@ void tambah_pesanan() {
     cetakNota();
     printf("============================================\n");
     printf("Tekan Enter untuk kembali ke menu utama...\n");
-    getchar();
+    fflush(stdin);
     while (getchar() != '\n');
 
     disconnect_db(conn);

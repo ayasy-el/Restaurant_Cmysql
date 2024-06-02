@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 void tambah_pesanan();
+void lihat_menu();
 void tambah_menu();
 void edit_menu();
 void delete_menu();
@@ -51,36 +52,37 @@ int main() {
 
 void kelola_menu() {
     int pilihan;
-    printf("\n============================================\n");
-    printf("               Kelola Menu\n");
-    printf("============================================\n");
-    printf("1. Tambah Menu\n");
-    printf("2. Edit Menu\n");
-    printf("3. Delete Menu\n");
-    printf("4. Back\n");
-    printf("============================================\n");
-    printf("Pilih opsi (1-4): ");
-    scanf("%d", &pilihan);
+    while (1) {
+        printf("\n============================================\n");
+        printf("               Kelola Menu\n");
+        printf("============================================\n");
+        printf("1. Lihat Menu\n");
+        printf("2. Tambah Menu\n");
+        printf("3. Edit Menu\n");
+        printf("4. Delete Menu\n");
+        printf("5. Back\n");
+        printf("============================================\n");
+        printf("Pilih opsi (1-4): ");
+        scanf("%d", &pilihan);
 
-    switch (pilihan) {
-        case 1:
-            tambah_menu();
-            break;
-        case 2:
-            edit_menu();
-            break;
-        case 3:
-            delete_menu();
-            break;
-        case 4:
-            printf("============================================\n\n");
-            break;
-        default:
-            printf("Pilihan tidak valid. Silakan coba lagi.\n");
+        switch (pilihan) {
+            case 1:
+                lihat_menu();
+                break;
+            case 2:
+                tambah_menu();
+                break;
+            case 3:
+                edit_menu();
+                break;
+            case 4:
+                delete_menu();
+                break;
+            case 5:
+                printf("============================================\n\n");
+                return;
+            default:
+                printf("Pilihan tidak valid. Silakan coba lagi.\n");
+        }
     }
 }
-
-// ! Harus Diimplementasikan
-// ! Lalu Hapus
-void edit_menu() {}
-void delete_menu() {}
