@@ -2,12 +2,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "database.h"
+#include "../database.h"
+#include "../multiplatform.h"
 
+// TODO: Riwayat masih terpengaruh update edit menu
+// * tambahkan harga menu di Detail_Pesanan
 void lihat_riwayat() {
     MYSQL *conn = mysql_init(NULL);
     connect_db(conn);
 
+    system(CLEAR);
     printf("\n============================================\n");
     printf("           Riwayat Pemesanan\n");
     printf("============================================\n");

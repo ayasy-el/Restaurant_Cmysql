@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "multiplatform.h": "c",
+    "string.h": "c",
+    "mysql.h": "c",
+    "database.h": "c"
+  }
+}

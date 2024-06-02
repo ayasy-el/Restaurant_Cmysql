@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "database.h"
+#include "../database.h"
+#include "../multiplatform.h"
 
 void tambah_menu() {
     MYSQL *conn = mysql_init(NULL);
@@ -12,6 +13,7 @@ void tambah_menu() {
     int hargaMenu;
     char namaMenu[120];
 
+    system(CLEAR);
     printf("\n============================================\n");
     printf("               Tambah Menu\n");
     printf("============================================\n");
@@ -47,6 +49,7 @@ void edit_menu() {
     int hargaMenu = -1;
     char namaMenu[120] = "";
 
+    system(CLEAR);
     printf("\n============================================\n");
     printf("               Edit Menu\n");
     printf("============================================\n");
@@ -102,6 +105,7 @@ void lihat_menu() {
     MYSQL *conn = mysql_init(NULL);
     connect_db(conn);
 
+    system(CLEAR);
     printf("\n============================================\n");
     printf("               Edit Menu\n");
     printf("============================================\n");

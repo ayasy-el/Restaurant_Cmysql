@@ -2,34 +2,79 @@ cmake_minimum_required(VERSION 3.29.3)
 project(MyProject)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
-set(SOURCES
-    main.c
-    kelola_menu.c
-    tambah_pesanan.c
-    lihat_riwayat.c
-    database.c
+
+# Restoran sources
+set(RESTORAN_SOURCES
+    src/restoran/main.c
+    src/restoran/kelola_menu.c
+    src/restoran/tambah_pesanan.c
+    src/restoran/lihat_riwayat.c
+    src/database.c
+    src/login.c
 )
+
+# Karyawan sources
+set(KARYAWAN_SOURCES
+    src/karyawan/main.c
+    src/karyawan/kelola_karyawan.c
+    src/database.c
+    src/login.c
+)
+
+option(BUILD_RESTORAN "Build the restoran executable" ON)
+option(BUILD_KARYAWAN "Build the karyawan executable" ON)
 
 if(WIN32)
     include_directories(${PROJECT_SOURCE_DIR}/include)
     link_directories(${PROJECT_SOURCE_DIR}/lib)
 
-    add_executable(main ${SOURCES})
-    target_link_libraries(main PRIVATE libmariadb)
+    if(BUILD_RESTORAN)
+        # Restoran executable
+        add_executable(restoran ${RESTORAN_SOURCES})
+        target_link_libraries(restoran PRIVATE libmariadb)
+    endif()
+
+    if(BUILD_KARYAWAN)
+        # Karyawan executable
+        add_executable(karyawan ${KARYAWAN_SOURCES})
+        target_link_libraries(karyawan PRIVATE libmariadb)
+    endif()
 else()
     include_directories(/usr/include/mysql)
 
-    add_executable(main ${SOURCES})
-    target_link_libraries(main PRIVATE mysqlclient)
+    if(BUILD_RESTORAN)
+        # Restoran executable
+        add_executable(restoran ${RESTORAN_SOURCES})
+        target_link_libraries(restoran PRIVATE mysqlclient)
+    endif()
+
+    if(BUILD_KARYAWAN)
+        # Karyawan executable
+        add_executable(karyawan ${KARYAWAN_SOURCES})
+        target_link_libraries(karyawan PRIVATE mysqlclient)
+    endif()
 endif()
 
 # Output directories
 set(BUILD_DIR "${CMAKE_SOURCE_DIR}/build")
 set(DIST_DIR "${BUILD_DIR}/dist")
-set_target_properties(main PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${DIST_DIR}")
+
+if(BUILD_RESTORAN)
+    set_target_properties(restoran PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${DIST_DIR}")
+endif()
+
+if(BUILD_KARYAWAN)
+    set_target_properties(karyawan PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${DIST_DIR}")
+endif()
 
 # Copy .dll only on Windows
 if(WIN32)
-    add_custom_command(TARGET main POST_BUILD
-                       COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/lib/libmariadb.dll ${DIST_DIR}/libmariadb.dll)
+    if(BUILD_RESTORAN)
+        add_custom_command(TARGET restoran POST_BUILD
+                           COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/lib/libmariadb.dll ${DIST_DIR}/libmariadb.dll)
+    endif()
+    if(BUILD_KARYAWAN)
+        add_custom_command(TARGET karyawan POST_BUILD
+                           COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/lib/libmariadb.dll ${DIST_DIR}/libmariadb.dll)
+    endif()
 endif()

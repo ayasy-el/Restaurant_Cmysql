@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "../multiplatform.h"
+
 void tambah_pesanan();
 void lihat_menu();
 void tambah_menu();
@@ -8,8 +10,11 @@ void edit_menu();
 void delete_menu();
 void lihat_riwayat();
 void kelola_menu();
+void login();
 
 int main() {
+    system(CLEAR);
+    login();
     int pilihan;
 
     while (1) {

@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "database.h"
+#include "../database.h"
+#include "../multiplatform.h"
 int getHarga(MYSQL *, int);
 void cetakNota();
 
@@ -15,6 +16,7 @@ void tambah_pesanan() {
     MYSQL *conn = mysql_init(NULL);
     connect_db(conn);
 
+    system(CLEAR);
     printf("\n============================================\n");
     printf("               Tambah Pesanan\n");
     printf("============================================\n");
