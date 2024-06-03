@@ -19,7 +19,7 @@ int main() {
     while (1) {
         system(CLEAR);
         printf("\n============================================\n");
-        printf("   Selamat Datang di Sistem Pemesanan Restoran\n");
+        printf("  Selamat Datang di Sistem Pemesanan Restoran\n");
         printf("============================================\n");
         printf("1. Tambah Pesanan\n");
         printf("2. Kelola Menu\n");
