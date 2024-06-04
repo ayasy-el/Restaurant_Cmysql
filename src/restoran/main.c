@@ -23,14 +23,14 @@ int main()
     {
         system(CLEAR);
         logo();
-        printf("\t\t\t\t\t=========================\n");
-        printf("\t\t\t\t\tSelamat Datang %s !\n", namaKaryawan);
-        printf("\t\t\t\t\t=========================\n");
+        printf("\t\t\t\t\t========================================\n");
+        printf("\t\t\t\t\t         Selamat Datang %s !\n", namaKaryawan);
+        printf("\t\t\t\t\t========================================\n");
         printf("\t\t\t\t\t1. Tambah Pesanan\n");
         printf("\t\t\t\t\t2. Kelola Menu\n");
         printf("\t\t\t\t\t3. Riwayat Pemesanan\n");
         printf("\t\t\t\t\t4. Keluar\n");
-        printf("\t\t\t\t\t=========================\n");
+        printf("\t\t\t\t\t========================================\n");
         printf("\t\t\t\t\tPilih opsi (1-4): ");
         scanf("%d", &pilihan);
 
@@ -46,10 +46,10 @@ int main()
             lihat_riwayat();
             break;
         case 4:
-            printf("\t\t\t\t\t=========================\n");
-            printf("\t\t\t\t\t  Selamat Tinggal %s \n", namaKaryawan);
-            printf("\t\t\t\t\tKeluar dari Aplikasi POS.\n");
-            printf("\t\t\t\t\t=========================\n");
+            printf("\t\t\t\t\t========================================\n");
+            printf("\t\t\t\t\t       Selamat Tinggal %s \n", namaKaryawan);
+            printf("\t\t\t\t\t       Keluar dari Aplikasi POS.        \n");
+            printf("\t\t\t\t\t========================================\n");
             exit(0);
         default:
             printf("Pilihan tidak valid. Silakan coba lagi.\n");
@@ -69,15 +69,15 @@ void kelola_menu()
     {
         system(CLEAR);
         logo();
-        printf("\t\t\t\t\t=========================\n");
-        printf("\t\t\t\t\t       Kelola Menu       \n");
-        printf("\t\t\t\t\t=========================\n");
+        printf("\t\t\t\t\t========================================\n");
+        printf("\t\t\t\t\t               Kelola Menu              \n");
+        printf("\t\t\t\t\t========================================\n");
         printf("\t\t\t\t\t1. Lihat Menu\n");
         printf("\t\t\t\t\t2. Tambah Menu\n");
         printf("\t\t\t\t\t3. Edit Menu\n");
         printf("\t\t\t\t\t4. Delete Menu\n");
         printf("\t\t\t\t\t5. Back\n");
-        printf("\t\t\t\t\t=========================\n");
+        printf("\t\t\t\t\t========================================\n");
         printf("\t\t\t\t\tPilih opsi (1-4): ");
         scanf("%d", &pilihan);
 
@@ -96,23 +96,23 @@ void kelola_menu()
             delete_menu();
             break;
         case 5:
-            printf("\t\t\t\t\t=========================\n");
+            printf("\t\t\t\t\t========================================\n");
             return;
         default:
-            printf("Pilihan tidak valid. Silakan coba lagi.\n");
+            printf("\t\t\t\t\tPilihan tidak valid. Silakan coba lagi.\n");
         }
     }
 }
 void logo()
 {
     printf("\n");
-    printf("\t\t\t\t\t██████╗  ██████╗ ███████╗\n");
-    printf("\t\t\t\t\t██╔══██╗██╔═══██╗██╔════╝\n");
-    printf("\t\t\t\t\t██████╔╝██║   ██║███████╗\n");
-    printf("\t\t\t\t\t██╔═══╝ ██║   ██║╚════██║\n");
-    printf("\t\t\t\t\t██║     ╚██████╔╝███████║\n");
-    printf("\t\t\t\t\t╚═╝      ╚═════╝ ╚══════╝\n");
-    printf("\t\t\t\t\t Point of Sales Terminal \n");
-    printf("\t\t\t\t\t      v.1.2 ©Tribone     \n");
+    printf("\t\t\t\t\t        ██████╗  ██████╗ ███████╗\n");
+    printf("\t\t\t\t\t        ██╔══██╗██╔═══██╗██╔════╝\n");
+    printf("\t\t\t\t\t        ██████╔╝██║   ██║███████╗\n");
+    printf("\t\t\t\t\t        ██╔═══╝ ██║   ██║╚════██║\n");
+    printf("\t\t\t\t\t        ██║     ╚██████╔╝███████║\n");
+    printf("\t\t\t\t\t        ╚═╝      ╚═════╝ ╚══════╝\n");
+    printf("\t\t\t\t\t         Point of Sales Terminal \n");
+    printf("\t\t\t\t\t              v.1.2 ©Tribone     \n");
     printf("\n");
 }

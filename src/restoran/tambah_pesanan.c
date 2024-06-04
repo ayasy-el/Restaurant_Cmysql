@@ -19,16 +19,7 @@ void tambah_pesanan()
     connect_db(conn);
 
     system(CLEAR);
-    printf("\n");
-    printf("\t\t\t\t\t        ██████╗  ██████╗ ███████╗\n");
-    printf("\t\t\t\t\t        ██╔══██╗██╔═══██╗██╔════╝\n");
-    printf("\t\t\t\t\t        ██████╔╝██║   ██║███████╗\n");
-    printf("\t\t\t\t\t        ██╔═══╝ ██║   ██║╚════██║\n");
-    printf("\t\t\t\t\t        ██║     ╚██████╔╝███████║\n");
-    printf("\t\t\t\t\t        ╚═╝      ╚═════╝ ╚══════╝\n");
-    printf("\t\t\t\t\t         Point of Sales Terminal \n");
-    printf("\t\t\t\t\t              v.1.2 ©Tribone     \n");
-    printf("\n");
+    logo();
     printf("\t\t\t\t\tLogin Sebagai : %s\n", namaKaryawan);
     printf("\t\t\t\t\t========================================\n");
     printf("\t\t\t\t\t             Tambah Pesanan             \n");

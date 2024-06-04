@@ -78,7 +78,7 @@ void edit_menu()
         printf("\t\t\t\t\t[%s] %s : %s\n", row[0], row[1], row[2]);
     }
     mysql_free_result(result);
-    printf("\t\t\t\t\t========================================\n\n");
+    printf("\t\t\t\t\t========================================\n");
 
     int menuID;
     printf("\t\t\t\t\tPilih nomor menu yang akan diedit: ");
@@ -108,7 +108,7 @@ void edit_menu()
         sprintf(query, "UPDATE Menu SET %s WHERE MenuID=%d;", setQuery, menuID);
         execute_query(conn, query);
 
-        printf("\nMenu berhasil diubah!\n");
+        printf("\n\t\t\t\t\tMenu berhasil diubah!\n");
     }
     else
         printf("\n\t\t\t\t\tTidak ada entry yang berubah\n");
@@ -133,12 +133,12 @@ void lihat_menu()
     printf("\t\t\t\t\t                Lihat Menu              \n");
     printf("\t\t\t\t\t========================================\n");
 
-    printf("  Daftar Menu:\n");
+    printf("\t\t\t\t\tDaftar Menu:\n");
     MYSQL_RES *result = fetch_query(conn, "SELECT MenuID, NamaMenu, HargaMenu FROM Menu");
     MYSQL_ROW row;
     while ((row = mysql_fetch_row(result)))
     {
-        printf("   [%s] %s : %s\n", row[0], row[1], row[2]);
+        printf("\t\t\t\t\t[%s] %s : %s\n", row[0], row[1], row[2]);
     }
     mysql_free_result(result);
     printf("\t\t\t\t\t========================================\n");
@@ -157,9 +157,9 @@ void delete_menu()
 
     system(CLEAR);
     logo();
-    printf("\n============================================\n");
-    printf("               Delete Menu\n");
-    printf("============================================\n");
+    printf("\t\t\t\t\t========================================\n");
+    printf("\t\t\t\t\t              Delete Menu               \n");
+    printf("\t\t\t\t\t========================================\n");
 
     printf("  Daftar Menu:\n");
     MYSQL_RES *result = fetch_query(conn, "SELECT MenuID, NamaMenu, HargaMenu FROM Menu");
@@ -169,18 +169,18 @@ void delete_menu()
         printf("   [%s] %s : %s\n", row[0], row[1], row[2]);
     }
     mysql_free_result(result);
-    printf("============================================\n\n");
+    printf("\t\t\t\t\t========================================\n");
 
     int menuID;
-    printf("Pilih nomor menu yang akan delete: ");
+    printf("\t\t\t\t\tPilih nomor menu yang akan delete: ");
     scanf("%d", &menuID);
 
     char query[256];
     sprintf(query, "Delete from Menu WHERE MenuID=%d;", menuID);
     execute_query(conn, query);
 
-    printf("============================================\n");
-    printf("Tekan Enter untuk kembali...\n");
+    printf("\t\t\t\t\t========================================\n");
+    printf("\t\t\t\t\tTekan Enter untuk kembali...\n");
     getchar();
     while (getchar() != '\n')
         ;
