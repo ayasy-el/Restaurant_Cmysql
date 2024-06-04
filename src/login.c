@@ -6,8 +6,7 @@
 #include "multiplatform.h"
 
 #if defined(unix)
-int getch(void)
-{
+int getch(void) {
     struct termios oldattr, newattr;
     int ch;
     tcgetattr(STDIN_FILENO, &oldattr);
@@ -20,15 +19,13 @@ int getch(void)
 }
 #endif
 
-void showLoading()
-{
+void showLoading() {
     const char loadingChars[] = {'/', '-', '\\', '|'};
     int i;
 
     printf("\n\t\t\t\t\t\tLoading... ");
 
-    for (i = 0; i < 30; i++)
-    {
+    for (i = 0; i < 30; i++) {
         printf("%c", loadingChars[i % 4]);
         fflush(stdout);
         SLEEP(100000);
@@ -37,9 +34,8 @@ void showLoading()
     printf("\n");
 }
 
-int login(char *login_name)
-{
-
+int login(char *login_name) {
+    SET_CONSOLE();
     static int trial = 0;
     char pass[20] = "";
     char name[30] = "";
@@ -58,13 +54,10 @@ int login(char *login_name)
     printf("\t\t\t\t\tEmployee Management Systems\n");
     printf("\t\t\t\t\t       v.1.2 ©Tribone      \n");
 
-    if (trial >= 1 && trial <= 2)
-    {
+    if (trial >= 1 && trial <= 2) {
         /* code */
         printf("\n\n\t\t\t Nama atau password salah. Kesempatan Login hanya %d kali", 3 - trial);
-    }
-    else if (trial == 3)
-    {
+    } else if (trial == 3) {
         printf("\n\t\t\t Aplikasi terblokir. Silahkan menghubungi Administrator.\n\n");
         exit(0);
     }
@@ -80,8 +73,7 @@ int login(char *login_name)
     printf("\n\t\t\t\t\t+-------------------------+");
     printf("\n\t\t\t\t\t  > ");
     int i = 0;
-    while ((ch = getch()) != ENTER && i < 19)
-    {
+    while ((ch = getch()) != ENTER && i < 19) {
         pass[i++] = ch;
         printf("*");
     }
@@ -91,8 +83,7 @@ int login(char *login_name)
     snprintf(query, sizeof(query), "SELECT name, password FROM employees WHERE name='%s' AND password='%s'", name, pass);
     MYSQL_RES *res = fetch_query(conn, query);
 
-    if (mysql_num_rows(res) > 0)
-    {
+    if (mysql_num_rows(res) > 0) {
         printf("\n\n\n\t\t\t\t\t|   Verifikasi Pengguna   |\n\t\t\t\t\t");
         showLoading();
         printf("\n\t\t\t\t\t|   Memasuki Aplikasi..   |\n\n");
