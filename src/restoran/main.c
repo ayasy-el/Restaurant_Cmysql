@@ -11,6 +11,7 @@ void delete_menu();
 void lihat_riwayat();
 void kelola_menu();
 void login();
+void logo();
 char namaKaryawan[30];
 
 int main()
@@ -21,16 +22,7 @@ int main()
     while (1)
     {
         system(CLEAR);
-        printf("\n");
-        printf("\t\t\t\t\t██████╗  ██████╗ ███████╗\n");
-        printf("\t\t\t\t\t██╔══██╗██╔═══██╗██╔════╝\n");
-        printf("\t\t\t\t\t██████╔╝██║   ██║███████╗\n");
-        printf("\t\t\t\t\t██╔═══╝ ██║   ██║╚════██║\n");
-        printf("\t\t\t\t\t██║     ╚██████╔╝███████║\n");
-        printf("\t\t\t\t\t╚═╝      ╚═════╝ ╚══════╝\n");
-        printf("\t\t\t\t\t Point of Sales Terminal \n");
-        printf("\t\t\t\t\t      v.1.2 ©Tribone     \n");
-        printf("\n");
+        logo();
         printf("\t\t\t\t\t=========================\n");
         printf("\t\t\t\t\tSelamat Datang %s !\n", namaKaryawan);
         printf("\t\t\t\t\t=========================\n");
@@ -76,16 +68,7 @@ void kelola_menu()
     while (1)
     {
         system(CLEAR);
-        printf("\n");
-        printf("\t\t\t\t\t██████╗  ██████╗ ███████╗\n");
-        printf("\t\t\t\t\t██╔══██╗██╔═══██╗██╔════╝\n");
-        printf("\t\t\t\t\t██████╔╝██║   ██║███████╗\n");
-        printf("\t\t\t\t\t██╔═══╝ ██║   ██║╚════██║\n");
-        printf("\t\t\t\t\t██║     ╚██████╔╝███████║\n");
-        printf("\t\t\t\t\t╚═╝      ╚═════╝ ╚══════╝\n");
-        printf("\t\t\t\t\t Point of Sales Terminal \n");
-        printf("\t\t\t\t\t      v.1.2 ©Tribone     \n");
-        printf("\n");
+        logo();
         printf("\t\t\t\t\t=========================\n");
         printf("\t\t\t\t\t       Kelola Menu       \n");
         printf("\t\t\t\t\t=========================\n");
@@ -119,4 +102,17 @@ void kelola_menu()
             printf("Pilihan tidak valid. Silakan coba lagi.\n");
         }
     }
+}
+void logo()
+{
+    printf("\n");
+    printf("\t\t\t\t\t██████╗  ██████╗ ███████╗\n");
+    printf("\t\t\t\t\t██╔══██╗██╔═══██╗██╔════╝\n");
+    printf("\t\t\t\t\t██████╔╝██║   ██║███████╗\n");
+    printf("\t\t\t\t\t██╔═══╝ ██║   ██║╚════██║\n");
+    printf("\t\t\t\t\t██║     ╚██████╔╝███████║\n");
+    printf("\t\t\t\t\t╚═╝      ╚═════╝ ╚══════╝\n");
+    printf("\t\t\t\t\t Point of Sales Terminal \n");
+    printf("\t\t\t\t\t      v.1.2 ©Tribone     \n");
+    printf("\n");
 }

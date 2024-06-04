@@ -5,7 +5,7 @@
 
 void connect_db(MYSQL *conn) {
     mysql_init(conn);
-    if (mysql_real_connect(conn, "localhost", "root", getenv("DBPassword"), "restoran_db", 0, NULL, CLIENT_MULTI_STATEMENTS) == NULL) {
+    if (mysql_real_connect(conn, "localhost", "root", "akmal", "restoran_db", 0, NULL, CLIENT_MULTI_STATEMENTS) == NULL) {
         fprintf(stderr, "%s\n", mysql_error(conn));
         mysql_close(conn);
         exit(1);

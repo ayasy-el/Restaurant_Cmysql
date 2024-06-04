@@ -39,7 +39,7 @@ void lihat_riwayat() {
 
     printf("============================================\n");
     printf("Tekan Enter untuk kembali ke menu utama...\n");
-    fflush(stdin);
+    getchar();
     while (getchar() != '\n');
 
     disconnect_db(conn);
