@@ -5,6 +5,7 @@
 #include "../database.h"
 #include "../multiplatform.h"
 extern char namaKaryawan[30];
+void logo();
 
 void lihat_riwayat()
 {
@@ -26,7 +27,7 @@ void lihat_riwayat()
         printf("\t\t\t\t\t   Tanggal/Waktu: %s\n", row[2]);
         printf("\t\t\t\t\t   Metode Pembayaran: %s\n", row[3]);
         printf("\t\t\t\t\t   Status: %s\n", row[4]);
-        printf("\t\t\t\t\t   Total Harga: %s\n", row[5]);
+        printf("\t\t\t\t\t   Total Harga: Rp. %s\n", row[5]);
 
         char query[256];
         sprintf(query, "SELECT NamaMenu, Jumlah, HargaMenu FROM Detail_Pesanan WHERE PesananID=%s", row[0]);

@@ -1,9 +1,11 @@
 #include <mysql/mysql.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 #include "database.h"
 #include "multiplatform.h"
+void logo();
 
 #if defined(unix)
 int getch(void) {

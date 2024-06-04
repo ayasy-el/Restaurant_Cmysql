@@ -6,6 +6,7 @@
 #include "../database.h"
 #include "../multiplatform.h"
 extern char namaKaryawan[30];
+void logo();
 
 void tambah_menu()
 {

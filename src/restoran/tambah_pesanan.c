@@ -7,6 +7,7 @@
 #include "../multiplatform.h"
 int getHarga(MYSQL *, int);
 void cetakNota();
+void logo();
 
 int jumlahItem;
 char namaPelanggan[255], metodePembayaran[20];
@@ -35,11 +36,11 @@ void tambah_pesanan()
     printf("\t\t\t\t\t========================================\n");
     if (mysql_num_rows(result) == 0)
     {
-        printf("\t\t\t\t\t     Tambahkan Menu      \n");
-        printf("\t\t\t\t\t     Terlebih dahulu     \n");
-        printf("\t\t\t\t\t=========================\n\n");
-        printf("\t\t\t\t\tTekan Enter untuk kembali\n");
-        printf("\t\t\t\t\t     ke menu utama...    \n");
+        printf("\t\t\t\t\t             Tambahkan Menu             \n");
+        printf("\t\t\t\t\t             Terlebih dahulu            \n");
+        printf("\t\t\t\t\t========================================\n");
+        printf("\t\t\t\t\t       Tekan Enter untuk kembali        \n");
+        printf("\t\t\t\t\t            ke menu utama...            \n");
         getchar();
         while (getchar() != '\n')
             ;
@@ -82,7 +83,7 @@ void tambah_pesanan()
         i++;
     }
 
-    printf("\t\t\t\t\tTotal harga: %d\n", totalHarga);
+    printf("\t\t\t\t\tTotal harga: Rp. %d\n", totalHarga);
     printf("\t\t\t\t\tPilih metode pembayaran (Kartu Kredit/Tunai/Gopay/DANA/OVO): ");
     scanf("%s", metodePembayaran);
 
@@ -90,7 +91,7 @@ void tambah_pesanan()
     execute_query(conn, queryDetail);
 
     int pesananID;
-    MYSQL_RES *resultID = fetch_query(conn, "SELECT MAX(PesananID) FROM Pesanan"); // Mengambil ID terakhir & Timestamp
+    MYSQL_RES *resultID = fetch_query(conn, "SELECT PesananID, Timestamp FROM Pesanan WHERE PesananID=(SELECT MAX(PesananID) FROM Pesanan);"); // Mengambil ID terakhir & Timestamp
     MYSQL_ROW rowID = mysql_fetch_row(resultID);
     if (rowID == NULL)
         pesananID = 0;
@@ -109,7 +110,8 @@ void tambah_pesanan()
 
         mysql_free_result(resultMenu);
     }
-
+    printf("\n");
+    printf("\t\t\t\t\t========================================\n");
     printf("\t\t\t\t\t     Pesanan berhasil ditambahkan!      \n");
     printf("\t\t\t\t\t========================================\n");
     cetakNota();
@@ -168,11 +170,11 @@ void cetakNota()
         return;
     }
     int id = atoi(row[0]);
-    printf("%s. %s\n", row[0], namaPelanggan);
-    printf("   Tanggal/Waktu: %s\n", row[1]);
-    printf("   Metode Pembayaran: %s\n", metodePembayaran);
-    printf("   Status: %s\n", "selesai");
-    printf("   Total Harga: %d\n", totalHarga);
+    printf("\t\t\t\t\t%s. %s\n", row[0], namaPelanggan);
+    printf("\t\t\t\t\t  Tanggal/Waktu: %s\n", row[1]);
+    printf("\t\t\t\t\t  Metode Pembayaran: %s\n", metodePembayaran);
+    printf("\t\t\t\t\t  Status: %s\n", "Terbayar");
+    printf("\t\t\t\t\t  Total Harga: Rp. %d\n", totalHarga);
 
     mysql_free_result(result); // Membebaskan hasil setelah digunakan
     sprintf(query, "SELECT NamaMenu, Jumlah, HargaMenu FROM Detail_Pesanan WHERE PesananID=%d", id);
@@ -180,7 +182,7 @@ void cetakNota()
     MYSQL_ROW detail_row;
     while ((detail_row = mysql_fetch_row(detail_result)))
     {
-        printf("     - %s, Jumlah: %s, Harga Satuan: %s\n", detail_row[0], detail_row[1], detail_row[2]);
+        printf("\t\t\t\t\t    - %s, Jumlah: %s, Harga Satuan: %s\n", detail_row[0], detail_row[1], detail_row[2]);
     }
     mysql_free_result(detail_result);
 }
