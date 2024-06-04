@@ -11,12 +11,14 @@ void cetakNota();
 int jumlahItem;
 char namaPelanggan[255], metodePembayaran[20];
 int totalHarga = 0;
+extern char namaKaryawan[30];
 
 void tambah_pesanan() {
     MYSQL *conn = mysql_init(NULL);
     connect_db(conn);
 
     system(CLEAR);
+    printf("nama karyawan : %s", namaKaryawan);
     printf("\n============================================\n");
     printf("               Tambah Pesanan\n");
     printf("============================================\n");

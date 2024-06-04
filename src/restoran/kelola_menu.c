@@ -5,6 +5,7 @@
 
 #include "../database.h"
 #include "../multiplatform.h"
+extern char namaKaryawan[30];
 
 void tambah_menu() {
     MYSQL *conn = mysql_init(NULL);
@@ -14,6 +15,7 @@ void tambah_menu() {
     char namaMenu[120];
 
     system(CLEAR);
+    printf("nama karyawan : %s", namaKaryawan);
     printf("\n============================================\n");
     printf("               Tambah Menu\n");
     printf("============================================\n");

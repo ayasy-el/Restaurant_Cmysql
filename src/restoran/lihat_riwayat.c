@@ -4,12 +4,14 @@
 
 #include "../database.h"
 #include "../multiplatform.h"
+extern char namaKaryawan[30];
 
 void lihat_riwayat() {
     MYSQL *conn = mysql_init(NULL);
     connect_db(conn);
 
     system(CLEAR);
+    printf("nama karyawan : %s", namaKaryawan);
     printf("\n============================================\n");
     printf("           Riwayat Pemesanan\n");
     printf("============================================\n");

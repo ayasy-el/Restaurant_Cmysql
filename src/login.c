@@ -19,23 +19,25 @@ int getch(void)
     return ch;
 }
 #endif
+
 void showLoading()
 {
     const char loadingChars[] = {'/', '-', '\\', '|'};
     int i;
 
-    printf("\n\t\t\t\t\tLoading... ");
+    printf("\n\t\t\t\t\t\tLoading... ");
 
-    for (i = 0; i < 20; i++)
+    for (i = 0; i < 30; i++)
     {
         printf("%c", loadingChars[i % 4]);
         fflush(stdout);
-        usleep(100000);
+        SLEEP(100000);
         printf("\b");
     }
     printf("\n");
 }
-int login()
+
+int login(char *login_name)
 {
 
     static int trial = 0;
@@ -43,39 +45,40 @@ int login()
     char name[30] = "";
     char ch;
 
-
     system(CLEAR);
     MYSQL *conn = mysql_init(NULL);
     connect_db(conn);
     printf("\n");
-    printf("\t\t\t\t\t██████╗ ███████╗███╗   ██╗███████╗\n");
-    printf("\t\t\t\t\t██╔══██╗██╔════╝████╗  ██║██╔════╝\n");
-    printf("\t\t\t\t\t██████╔╝█████╗  ██╔██╗ ██║███████╗\n");
-    printf("\t\t\t\t\t██╔═══╝ ██╔══╝  ██║╚██╗██║╚════██║\n");
-    printf("\t\t\t\t\t██║     ███████╗██║ ╚████║███████║\n");
-    printf("\t\t\t\t\t╚═╝     ╚══════╝╚═╝  ╚═══╝╚══════╝\n");
+    printf("\t\t\t\t\t███████╗███╗   ███╗███████╗\n");
+    printf("\t\t\t\t\t██╔════╝████╗ ████║██╔════╝\n");
+    printf("\t\t\t\t\t█████╗  ██╔████╔██║███████╗\n");
+    printf("\t\t\t\t\t██╔══╝  ██║╚██╔╝██║╚════██║\n");
+    printf("\t\t\t\t\t███████╗██║ ╚═╝ ██║███████║\n");
+    printf("\t\t\t\t\t╚══════╝╚═╝     ╚═╝╚══════╝\n");
+    printf("\t\t\t\t\tEmployee Management Systems\n");
+    printf("\t\t\t\t\t       v.1.2 ©Tribone      \n");
 
     if (trial >= 1 && trial <= 2)
     {
         /* code */
-        printf("\n\n\t\t\t\t Nama atau password salah. Kesempatan Login hanya %d kali", 3 - trial);
+        printf("\n\n\t\t\t Nama atau password salah. Kesempatan Login hanya %d kali", 3 - trial);
     }
     else if (trial == 3)
     {
-        printf("\n\t\t\t\t Aplikasi terblokir. Silahkan menghubungi Administrator.\n\n");
+        printf("\n\t\t\t Aplikasi terblokir. Silahkan menghubungi Administrator.\n\n");
         exit(0);
     }
-
-    printf("\n\n\t\t\t\t\t+--------------------------------+");
-    printf("\n\t\t\t\t\t| Masukkan Nama Anda:            | ");
-    printf("\n\t\t\t\t\t+--------------------------------+");
-    printf("\n\t\t\t\t\t| > ");
+    printf("\n");
+    printf("\n\t\t\t\t\t+-------------------------+");
+    printf("\n\t\t\t\t\t| Masukkan Nama Anda:     |");
+    printf("\n\t\t\t\t\t+-------------------------+");
+    printf("\n\t\t\t\t\t  > ");
     scanf("%[^\n]%*c", name);
-    system(CLEAR);
-    printf("\n\t\t\t\t\t+--------------------------------+");
-    printf("\n\t\t\t\t\t| Masukkan Password Anda:        | ");
-    printf("\n\t\t\t\t\t+--------------------------------+");
-    printf("\n\t\t\t\t\t| > ");
+
+    printf("\n\t\t\t\t\t+-------------------------+");
+    printf("\n\t\t\t\t\t| Masukkan Password Anda: |");
+    printf("\n\t\t\t\t\t+-------------------------+");
+    printf("\n\t\t\t\t\t  > ");
     int i = 0;
     while ((ch = getch()) != ENTER && i < 19)
     {
@@ -90,24 +93,23 @@ int login()
 
     if (mysql_num_rows(res) > 0)
     {
-        printf("\n\n\n\t\t\t\t\t|   Verifikasi KARYAWAN   |\n\t\t\t\t\t");
-        for (int a = 0; a < 24; a++)
-        {
-            SLEEP(50);
-            printf(".");
-        }
-        printf("\n\nAkses Diberikan..\n\n");
+        printf("\n\n\n\t\t\t\t\t|   Verifikasi Pengguna   |\n\t\t\t\t\t");
+        showLoading();
+        printf("\n\t\t\t\t\t|   Memasuki Aplikasi..   |\n\n");
+        SLEEP(1000000);
+        MYSQL_ROW row = mysql_fetch_row(res);
+        strcpy(login_name, row[0]);
         mysql_free_result(res);
         disconnect_db(conn);
         return 0;
     }
 
-    printf("\n\n\n\t\t\t\t\t|   Verifikasi KARYAWAN   |\n\t\t\t\t\t");
+    printf("\n\n\n\t\t\t\t\t|   Verifikasi Pengguna   |\n\t\t\t\t\t");
     showLoading();
-    printf("\n\nAkses Ditolak...\n\n");
-
+    printf("\n\t\t\t\t\t|       Login Gagal!      |\n\n");
+    SLEEP(1000000);
     mysql_free_result(res);
     disconnect_db(conn);
     trial++;
-    return login();
+    return login(login_name);
 }

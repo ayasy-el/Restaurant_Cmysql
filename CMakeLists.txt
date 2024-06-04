@@ -27,53 +27,32 @@ option(BUILD_KARYAWAN "Build the karyawan executable" ON)
 if(WIN32)
     include_directories(${PROJECT_SOURCE_DIR}/include)
     link_directories(${PROJECT_SOURCE_DIR}/lib)
-
-    if(BUILD_RESTORAN)
-        # Restoran executable
-        add_executable(restoran ${RESTORAN_SOURCES})
-        target_link_libraries(restoran PRIVATE libmariadb)
-    endif()
-
-    if(BUILD_KARYAWAN)
-        # Karyawan executable
-        add_executable(karyawan ${KARYAWAN_SOURCES})
-        target_link_libraries(karyawan PRIVATE libmariadb)
-    endif()
+    set(LIB libmariadb)
 else()
     include_directories(/usr/include/mysql)
-
-    if(BUILD_RESTORAN)
-        # Restoran executable
-        add_executable(restoran ${RESTORAN_SOURCES})
-        target_link_libraries(restoran PRIVATE mysqlclient)
-    endif()
-
-    if(BUILD_KARYAWAN)
-        # Karyawan executable
-        add_executable(karyawan ${KARYAWAN_SOURCES})
-        target_link_libraries(karyawan PRIVATE mysqlclient)
-    endif()
+    set(LIB mysqlclient)
 endif()
 
-# Output directories
 set(BUILD_DIR "${CMAKE_SOURCE_DIR}/build")
 set(DIST_DIR "${BUILD_DIR}/dist")
 
 if(BUILD_RESTORAN)
+    add_executable(restoran ${RESTORAN_SOURCES})
+    target_link_libraries(restoran PRIVATE ${LIB})
+
     set_target_properties(restoran PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${DIST_DIR}")
-endif()
-
-if(BUILD_KARYAWAN)
-    set_target_properties(karyawan PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${DIST_DIR}")
-endif()
-
-# Copy .dll only on Windows
-if(WIN32)
-    if(BUILD_RESTORAN)
+    if(WIN32)
         add_custom_command(TARGET restoran POST_BUILD
                            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/lib/libmariadb.dll ${DIST_DIR}/libmariadb.dll)
     endif()
-    if(BUILD_KARYAWAN)
+endif()
+
+if(BUILD_KARYAWAN)
+    add_executable(karyawan ${KARYAWAN_SOURCES})
+    target_link_libraries(karyawan PRIVATE ${LIB})
+
+    set_target_properties(karyawan PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${DIST_DIR}")
+    if(WIN32)
         add_custom_command(TARGET karyawan POST_BUILD
                            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/lib/libmariadb.dll ${DIST_DIR}/libmariadb.dll)
     endif()

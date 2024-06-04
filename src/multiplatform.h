@@ -9,5 +9,5 @@
 #include <unistd.h>
 #define CLEAR "clear"
 #define ENTER 10
-#define SLEEP(x) usleep((x) * 1000)
+#define SLEEP(x) usleep((x))
 #endif
