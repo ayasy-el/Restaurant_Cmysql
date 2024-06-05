@@ -170,16 +170,18 @@ void cetakNota()
         return;
     }
     int id = atoi(row[0]);
-    printf("\n\t\t\t\t\t========================================\n");
-    printf("\t\t\t\t\t              NOTA PEMBELIAN            \n");
-    printf("\t\t\t\t\t========================================\n");
-    printf("\t\t\t\t\t  Pembeli      : %s\n", namaPelanggan);
-    printf("\t\t\t\t\t  Tanggal/Waktu: %s\n", row[1]);
-    printf("\t\t\t\t\t  Metode Pembayaran: %s\n", metodePembayaran);
-    printf("\t\t\t\t\t  Status: %s\n", "Terbayar");
-    printf("\t\t\t\t\t----------------------------------------\n");
-    printf("\t\t\t\t\t  Detail Pesanan            \n");
-    printf("\t\t\t\t\t----------------------------------------\n");
+    system(CLEAR);
+    printf("\n\t\t\t\t================================================\n");
+    printf("\t\t\t\t              NOTA PEMBELIAN            \n");
+    printf("\t\t\t\t================================================\n");
+    printf("\t\t\t\t  Pembeli\t\t: %s\n", namaPelanggan);
+    printf("\t\t\t\t  Tanggal/Waktu\t\t: %s\n", row[1]);
+    printf("\t\t\t\t  Metode Pembayaran\t: %s\n", metodePembayaran);
+    printf("\t\t\t\t  Status\t\t: %s\n", "Terbayar");
+    printf("\t\t\t\t------------------------------------------------\n");
+    printf("\t\t\t\t  Detail Pesanan :           \n\n");
+    printf("\t\t\t\t Nama Item    Jumlah\tHarga Satuan\tTotal\n");
+    printf("\t\t\t\t------------------------------------------------\n");
 
     mysql_free_result(result); // Membebaskan hasil setelah digunakan
     sprintf(query, "SELECT NamaMenu, Jumlah, HargaMenu FROM Detail_Pesanan WHERE PesananID=%d", id);
@@ -187,16 +189,12 @@ void cetakNota()
     MYSQL_ROW detail_row;
     while ((detail_row = mysql_fetch_row(detail_result)))
     {
-        printf("\t\t\t\t\t    - %s\n", detail_row[0]);
-        printf("\t\t\t\t\t        Jumlah\t: %s\n", detail_row[1]);
-        printf("\t\t\t\t\t        Harga Satuan\t: %s\n", detail_row[2]);
-        printf("\t\t\t\t\t----------------------------------------\n");
-        printf("\t\t\t\t\t        Subtotal\t: %d\n\n", atoi(detail_row[2]) * atoi(detail_row[1]));
-
+        printf("\t\t\t\t %s \t %s\t   %s\t%d\n", detail_row[0], detail_row[2], detail_row[1], atoi(detail_row[2]) * atoi(detail_row[1]));
     }
+    printf("\t\t\t\t------------------------------------------------\n");
     printf("\n\t\t\t\t\t  Total Harga: Rp. %d\n", totalHarga);
-    printf("\t\t\t\t\t========================================\n");
-    printf("\t\t\t\t\t    Terima Kasih atas Kunjungan Anda    \n");
-    printf("\t\t\t\t\t========================================\n");
+    printf("\t\t\t\t================================================\n");
+    printf("\t\t\t\t    Terima Kasih atas Kunjungan Anda    \n");
+    printf("\t\t\t\t================================================\n");
     mysql_free_result(detail_result);
 }
