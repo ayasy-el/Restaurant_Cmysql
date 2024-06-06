@@ -162,12 +162,12 @@ void delete_menu()
     printf("\t\t\t\t\t              Delete Menu               \n");
     printf("\t\t\t\t\t========================================\n");
 
-    printf("  Daftar Menu:\n");
+    printf("\t\t\t\t\tDaftar Menu:\n");
     MYSQL_RES *result = fetch_query(conn, "SELECT MenuID, NamaMenu, HargaMenu FROM Menu");
     MYSQL_ROW row;
     while ((row = mysql_fetch_row(result)))
     {
-        printf("   [%s] %s : %s\n", row[0], row[1], row[2]);
+        printf("\t\t\t\t\t[%s] %s : %s\n", row[0], row[1], row[2]);
     }
     mysql_free_result(result);
     printf("\t\t\t\t\t========================================\n");

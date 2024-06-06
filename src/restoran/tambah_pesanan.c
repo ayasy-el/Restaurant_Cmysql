@@ -154,7 +154,7 @@ void cetakNota()
     connect_db(conn);
     char query[1024] = "";
 
-    execute_query(conn, "SELECT MAX(PesananID), Timestamp FROM Pesanan"); // Mengambil ID terakhir & Timestamp
+    execute_query(conn, "SELECT PesananID, Timestamp FROM Pesanan WHERE PesananID = (SELECT MAX(PesananID) FROM Pesanan);"); // Mengambil ID terakhir & Timestamp
     MYSQL_RES *result = mysql_store_result(conn);
     if (result == NULL)
     {
